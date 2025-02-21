@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { getDatabaseConfig } from '@app/config/database.config';
 import { validationSchema } from '@app/config/validation.config';
-import { ExampleModule } from '@app/example/example.module';
+import { LlmModule } from '@app/llm/llm.module';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { ExampleModule } from '@app/example/example.module';
       useFactory: getDatabaseConfig,
       inject: [ConfigService],
     }),
-    ExampleModule,
+    LlmModule,
   ],
   controllers: [],
   providers: [],

@@ -1,7 +1,10 @@
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
-import { Example } from '@app/example/entities/example.entity';
+import { LlmVendor } from '@app/llm/entities/llm-vendor.entity';
+import { Llm } from '@app/llm/entities/llm.entity';
+import { User } from '@app/user/entities/user.entity';
+import { Workspace } from '@app/workspace/entities/workspace.entity';
 
 export const getDatabaseConfig = (
   configService: ConfigService,
@@ -12,6 +15,6 @@ export const getDatabaseConfig = (
   username: configService.get<string>('DB_USERNAME'),
   password: configService.get<string>('DB_PASSWORD'),
   database: configService.get<string>('DB_DATABASE'),
-  entities: [Example],
-  synchronize: true,
+  entities: [Llm, LlmVendor, Workspace, User],
+  synchronize: false,
 });
