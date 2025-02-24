@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { RolesGuard } from '@app/auth/guards/roles.guard';
 import { getDatabaseConfig } from '@app/config/database.config';
 import { validationSchema } from '@app/config/validation.config';
 import { LlmModule } from '@app/llm/llm.module';
@@ -19,6 +21,11 @@ import { LlmModule } from '@app/llm/llm.module';
     LlmModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule {}

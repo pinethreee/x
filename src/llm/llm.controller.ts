@@ -6,17 +6,13 @@ import {
   Param,
   Delete,
   Query,
-  UseGuards,
   Put,
-  UseFilters,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
-import { RolesGuard } from '@app/auth/guards/roles.guard';
 import { Roles } from '@app/common/decorators/roles.decorator';
 import { Workspace } from '@app/common/decorators/workspace.decorator';
 import { ResponseDto } from '@app/common/dto/response.dto';
-import { HttpExceptionFilter } from '@app/common/filters/http-exception.filter';
 import { CreateLlmDto } from '@app/llm/dto/create-llm.dto';
 import { FindAllLlmDto } from '@app/llm/dto/find-all-llm.dto';
 import { FindAllVendorDto } from '@app/llm/dto/find-all-vendor.dto';
@@ -26,8 +22,6 @@ import { MemberRole } from '@app/types/common/base.type';
 
 @ApiTags('LLM')
 @Controller('llm')
-@UseGuards(RolesGuard)
-@UseFilters(HttpExceptionFilter)
 export class LlmController {
   constructor(private readonly llmService: LlmService) {}
 

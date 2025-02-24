@@ -6,6 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { WinstonModule } from 'nest-winston';
 
 import { AppModule } from '@app/app.module';
+import { HttpExceptionFilter } from '@app/common/filters/http-exception.filter';
 import { createWinstonConfig } from '@app/config/winston.config';
 
 async function bootstrap() {
@@ -39,6 +40,7 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   await app.listen(process.env.PORT ?? 3000);
 }

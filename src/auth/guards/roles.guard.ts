@@ -3,6 +3,7 @@ import {
   CanActivate,
   ExecutionContext,
   UnauthorizedException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
@@ -44,17 +45,28 @@ export class RolesGuard implements CanActivate {
     const { auth } = request;
 
     if (!auth?.isAuthorized || !auth?.member?.role) {
-      throw new UnauthorizedException('권한이 없습니다.');
+      throw new UnauthorizedException('Unauthorized user');
     }
 
+    const hasPermission = this.checkRole(requiredRole, auth.member.role);
+    if (!hasPermission) {
+      throw new ForbiddenException(
+        'You do not have permission for this action',
+      );
+    }
+
+    return true;
+  }
+
+  private checkRole(requiredRole: MemberRole, userRole: MemberRole): boolean {
     switch (requiredRole) {
-      case MemberRole.OWNER: // 소유자만 접근 가능
-        return [MemberRole.OWNER].includes(auth.member.role);
-      case MemberRole.ADMIN: // 소유자, 관리자만 접근 가능
-        return [MemberRole.OWNER, MemberRole.ADMIN].includes(auth.member.role);
+      case MemberRole.OWNER:
+        return [MemberRole.OWNER].includes(userRole);
+      case MemberRole.ADMIN:
+        return [MemberRole.OWNER, MemberRole.ADMIN].includes(userRole);
       case MemberRole.MEMBER:
         return [MemberRole.OWNER, MemberRole.ADMIN, MemberRole.MEMBER].includes(
-          auth.member.role,
+          userRole,
         );
       case MemberRole.GUEST:
         return [
@@ -62,7 +74,7 @@ export class RolesGuard implements CanActivate {
           MemberRole.ADMIN,
           MemberRole.MEMBER,
           MemberRole.GUEST,
-        ].includes(auth.member.role);
+        ].includes(userRole);
       default:
         return false;
     }
