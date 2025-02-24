@@ -5,14 +5,23 @@ import {
   FindAllLlmDto,
   LlmListResponseDto,
 } from '@app/llm/dto/find-all-llm.dto';
+import {
+  FindAllVendorDto,
+  VendorResponseDto,
+  VendorGroupResponseDto,
+} from '@app/llm/dto/find-all-vendor.dto';
 import { UpdateLlmDto } from '@app/llm/dto/update-llm.dto';
+import { LlmVendorRepository } from '@app/llm/repositories/llm-vendor.repository';
 import { LlmRepository } from '@app/llm/repositories/llm.repository';
 
 @Injectable()
 export class LlmService {
   private readonly logger = new Logger(LlmService.name);
 
-  constructor(private readonly llmRepository: LlmRepository) {}
+  constructor(
+    private readonly llmRepository: LlmRepository,
+    private readonly llmVendorRepository: LlmVendorRepository,
+  ) {}
 
   async create(workspaceId: string, createLlmDto: CreateLlmDto) {
     this.logger.debug(
@@ -67,5 +76,20 @@ export class LlmService {
   async findAllWithVendor() {
     this.logger.debug('Fetching all LLMs with vendor information');
     return this.llmRepository.findAllWithVendor();
+  }
+
+  async findAllVendors(query: FindAllVendorDto) {
+    this.logger.debug('Fetching all vendors');
+    const vendors = await this.llmVendorRepository.findAllVendors();
+
+    const groupedVendors = vendors.reduce((acc, vendor) => {
+      if (!acc[vendor.name]) {
+        acc[vendor.name] = [];
+      }
+      acc[vendor.name].push(new VendorResponseDto(vendor, query.isSearch));
+      return acc;
+    }, {} as VendorGroupResponseDto);
+
+    return groupedVendors;
   }
 }

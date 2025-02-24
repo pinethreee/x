@@ -19,6 +19,7 @@ import { ResponseDto } from '@app/common/dto/response.dto';
 import { HttpExceptionFilter } from '@app/common/filters/http-exception.filter';
 import { CreateLlmDto } from '@app/llm/dto/create-llm.dto';
 import { FindAllLlmDto } from '@app/llm/dto/find-all-llm.dto';
+import { FindAllVendorDto } from '@app/llm/dto/find-all-vendor.dto';
 import { UpdateLlmDto } from '@app/llm/dto/update-llm.dto';
 import { LlmService } from '@app/llm/llm.service';
 import { MemberRole } from '@app/types/common/base.type';
@@ -29,6 +30,14 @@ import { MemberRole } from '@app/types/common/base.type';
 @UseFilters(HttpExceptionFilter)
 export class LlmController {
   constructor(private readonly llmService: LlmService) {}
+
+  @Get('vendors')
+  @Roles(MemberRole.OWNER)
+  @ApiOperation({ summary: 'Get all LLM vendors' })
+  async findAllVendors(@Query() query: FindAllVendorDto) {
+    const result = await this.llmService.findAllVendors(query);
+    return ResponseDto.success(result);
+  }
 
   @Post()
   @Roles(MemberRole.OWNER)
