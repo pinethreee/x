@@ -1,10 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { getDatabaseConfig } from '@app/config/database.config';
+import { RolesGuard } from '@app/auth/guards/roles.guard';
+import { getMongoConfig } from '@app/config/mongo.config';
+import { getRdbConfig } from '@app/config/rdb.config';
 import { validationSchema } from '@app/config/validation.config';
-import { ExampleModule } from '@app/example/example.module';
+import { LlmModule } from '@app/llm/llm.module';
+import { TemplateModule } from '@app/template/template.module';
 
 @Module({
   imports: [
@@ -13,12 +18,22 @@ import { ExampleModule } from '@app/example/example.module';
       validationSchema,
     }),
     TypeOrmModule.forRootAsync({
-      useFactory: getDatabaseConfig,
+      useFactory: getRdbConfig,
       inject: [ConfigService],
     }),
-    ExampleModule,
+    MongooseModule.forRootAsync({
+      useFactory: getMongoConfig,
+      inject: [ConfigService],
+    }),
+    LlmModule,
+    TemplateModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule {}

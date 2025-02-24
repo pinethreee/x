@@ -37,13 +37,14 @@
 │   │   └── pipes/           # 파이프
 │   │
 │   ├── config/             # 환경 설정
-│   │   ├── database.config.ts
+│   │   ├── rdb.config.ts
+│   │   ├── mongodb.config.ts
 │   │   ├── validation.config.ts
 │   │   └── winston.config.ts
 │   │
 │   ├── types/             # 전역 타입 정의
 │   │   ├── common/        # 공통 타입
-│   │   └── users/         # 사용자 관련 공유 타입
+│   │   └── user/         # 사용자 관련 공유 타입
 │   │
 │   ├── app.module.ts      # 루트 모듈
 │   └── main.ts           # 애플리케이션 엔트리 포인트
@@ -54,29 +55,24 @@
 각 도메인 모듈은 다음과 같은 구조를 따릅니다:
 
 ```bash
-users/                    # 사용자 모듈 예시
+user/                    # 사용자 모듈 예시
 ├── dto/                  # DTO 클래스
 ├── entities/             # 엔티티 클래스
-├── types/                # 모듈 내부 전용 타입
 ├── guards/               # 모듈 전용 가드
 ├── interceptors/         # 모듈 전용 인터셉터
 ├── filters/              # 모듈 전용 필터
 ├── middlewares/          # 모듈 전용 미들웨어
 ├── decorators/           # 모듈 전용 데코레이터
-├── users.controller.ts   # 컨트롤러
-├── users.service.ts      # 서비스
-├── users.module.ts       # 모듈 정의
-└── users.service.spec.ts # 테스트
+├── user.controller.ts   # 컨트롤러
+├── user.service.ts      # 서비스
+├── user.module.ts       # 모듈 정의
+└── user.service.spec.ts # 테스트
 ```
 
 #### 타입 관리 가이드
 - `src/types/`: 여러 모듈에서 공유되는 타입 정의
   - API 응답 공통 타입
   - 모듈 간 공유되는 인터페이스
-
-- `{module}/types/`: 해당 모듈 내부에서만 사용되는 타입
-  - 모듈 내부 상태 인터페이스
-  - 구현 세부사항 관련 타입
 
 새로운 도메인 모듈 생성 시 다음 명령어를 사용합니다:
 ```bash
