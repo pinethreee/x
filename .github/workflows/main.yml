@@ -74,11 +74,11 @@ jobs:
           echo "DB_PORT=${{ secrets.DB_HOSTPORT }}" >> .env
           echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-          echo "DB_DATABASE=${{ env.DB_DATABASE }}" >> .env
+          echo "DB_DATABASE=${{ vars.DB_DATABASE }}" >> .env
           echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> .env
-          echo "MONGO_DATABASE=${{ env.MONGO_DATABASE }}" >> .env
+          echo "MONGO_DATABASE=${{ vars.MONGO_DATABASE }}" >> .env
 
-          echo "DB_DATABASE=${{ env.DB_DATABASE }}"
+          echo "DB_DATABASE=${{ vars.DB_DATABASE }}"
           echo "MONGO_URI=${{ secrets.MONGO_URI }}"
           
 
