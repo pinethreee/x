@@ -59,6 +59,7 @@ jobs:
             **이벤트:** ${{ github.event_name }}
             **브랜치:** ${{ github.ref }}
             **커밋:** ${{ github.sha }}
+            **커밋 메시지:** ${{ github.event.head_commit.message }}
           theme_color: ${{ job.status == 'success' && '00FF00' || 'FF0000' }}
 
 
