@@ -47,13 +47,19 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Teams Notification 
-        uses: jdcargile/ms-teams-notification@v1.3
+        uses: aliencube/microsoft-teams-actions@v0.8.0
         with:
-          github-token: ${{ github.token }}
-          ms-teams-webhook-uri: https://alibizgroup.webhook.office.com/webhookb2/53d32900-0c0e-4656-81ba-661e48dfcda2@3a9623b8-163c-46b9-87ab-68863012ec5a/IncomingWebhook/92314ea918a24733ab15a006874dc3ba/a58be90e-1de5-421d-bc1b-72ebbe1042fe/V2RdW7uabq8nWazNR3qHdCxrQJzh-GjLLpm2GJrAJD6o01
-          notification-summary: "나는 배포요정!"
-          notification-color: "28a745" # 성공 시 초록색
-          timezone: "Asia/Seoul"
+          webhook_uri: https://alibizgroup.webhook.office.com/webhookb2/53d32900-0c0e-4656-81ba-661e48dfcda2@3a9623b8-163c-46b9-87ab-68863012ec5a/IncomingWebhook/92314ea918a24733ab15a006874dc3ba/a58be90e-1de5-421d-bc1b-72ebbe1042fe/V2RdW7uabq8nWazNR3qHdCxrQJzh-GjLLpm2GJrAJD6o01
+          title: "나는 배포요정!"
+          summary: "배포를 완료했습니다, "
+          text: |
+            **저장소:** ${{ github.repository }}
+            **워크플로우:** ${{ github.workflow }}
+            **상태:** ${{ job.status }}
+            **이벤트:** ${{ github.event_name }}
+            **브랜치:** ${{ github.ref }}
+            **커밋:** ${{ github.sha }}
+          theme_color: ${{ job.status == 'success' && '00FF00' || 'FF0000' }}
 
 
       # - name: Install dependencies
