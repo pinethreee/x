@@ -51,18 +51,15 @@ jobs:
         with:
           webhook_uri: https://alibizgroup.webhook.office.com/webhookb2/53d32900-0c0e-4656-81ba-661e48dfcda2@3a9623b8-163c-46b9-87ab-68863012ec5a/IncomingWebhook/92314ea918a24733ab15a006874dc3ba/a58be90e-1de5-421d-bc1b-72ebbe1042fe/V2RdW7uabq8nWazNR3qHdCxrQJzh-GjLLpm2GJrAJD6o01
           title: "나는 배포요정!"
-          summary: "배포를 완료했습니다, "
           text: |
-            <div style="color:#000;background-color:${{ job.status == 'success' && '#E8F5E9' || '#FFEBEE' }};padding:15px;border-radius:5px">
-              <h2 style="margin-top:0">${{ job.status == 'success' && '✅ 빌드 성공' || '❌ 빌드 실패' }}</h2>
-              <p><strong>저장소:</strong> ${{ github.repository }}</p>
-              <div style="background-color:#fff;padding:1rem;border-radius:3px;margin-top:1rem">
+            <div style="color:#000;background-color:${{ job.status == 'success' && '#E8F5E9' || '#FFEBEE' }};padding:1.5rem;border-radius:.4rem">
+              <h2>${{ job.status == 'success' && '✅ 빌드 성공' || '❌ 빌드 실패' }}</h2>
+              <p>${{ github.repository }}</p>
+              <div style="background-color:#fff;padding:1rem;border-radius:.4rem;margin:1rem 0">
                 <p>💬 ${{ github.event.head_commit.message }}</p>
-                <p style="font-style:italic;margin:5px 0">- ${{ github.event.head_commit.author.name }}</p>
+                <p style="font-style:italic;margin:1rem 0">- ${{ github.event.head_commit.author.name }}</p>
               </div>
-              <p style="margin-top:1rem">
-                <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">🔍 워크플로우 보기</a>
-              </p>
+              <p>🔍 <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">워크플로우 보기</a></p>
             </div>
           theme_color: ${{ job.status == 'success' && '00FF00' || 'FF0000' }}
 
