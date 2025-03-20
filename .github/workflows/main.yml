@@ -121,3 +121,12 @@ jobs:
       - name: Run container
         run: |
           docker run -d --name ${{ env.PROJECT_ID }} -p 3000:3000 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+      - name: Teams Notification 
+        uses: jdcargile/ms-teams-notification@v1.3
+        with:
+          github-token: ${{ github.token }}
+          ms-teams-webhook-uri: https://alibizgroup.webhook.office.com/webhookb2/53d32900-0c0e-4656-81ba-661e48dfcda2@3a9623b8-163c-46b9-87ab-68863012ec5a/IncomingWebhook/92314ea918a24733ab15a006874dc3ba/a58be90e-1de5-421d-bc1b-72ebbe1042fe/V2RdW7uabq8nWazNR3qHdCxrQJzh-GjLLpm2GJrAJD6o01
+          notification-summary: "나는 배포요정!"
+          notification-color: "28a745" # 성공 시 초록색
+          timezone: "Asia/Seoul"
