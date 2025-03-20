@@ -53,13 +53,23 @@ jobs:
           title: "나는 배포요정!"
           summary: "배포를 완료했습니다, "
           text: |
-            **저장소:** ${{ github.repository }}
-            **워크플로우:** ${{ github.workflow }}
-            **상태:** ${{ job.status }}
-            **이벤트:** ${{ github.event_name }}
-            **브랜치:** ${{ github.ref }}
-            **커밋:** ${{ github.sha }}
-            **커밋 메시지:** ${{ github.event.head_commit.message }}
+            <table style="width: 100%; border-collapse: collapse; border: none;">
+              <tr>
+                <td style="background-color: ${{ job.status == 'success' && '#E8F5E9' || '#FFEBEE' }}; padding: 15px; border-radius: 5px;">
+                  <h2 style="margin-top: 0;">${{ job.status == 'success' && '✅ 빌드 성공' || '❌ 빌드 실패' }}</h2>
+                  <p><strong>저장소:</strong> ${{ github.repository }}</p>
+                  <p><strong>브랜치:</strong> ${{ github.ref_name }}</p>
+                  <p><strong>이벤트:</strong> ${{ github.event_name }}</p>
+                  <div style="background-color: #f5f5f5; padding: 10px; border-radius: 3px; margin-top: 10px;">
+                    <p style="font-style: italic; margin: 0;">💬 ${{ github.event.head_commit.message }}</p>
+                    <p style="font-size: 0.9em; margin: 5px 0 0 0;">- ${{ github.event.head_commit.author.name }}</p>
+                  </div>
+                  <p style="margin-top: 15px;">
+                    <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">🔍 워크플로우 보기</a>
+                  </p>
+                </td>
+              </tr>
+            </table>
           theme_color: ${{ job.status == 'success' && '00FF00' || 'FF0000' }}
 
 
