@@ -53,21 +53,17 @@ jobs:
           title: "나는 배포요정!"
           summary: "배포를 완료했습니다, "
           text: |
-            <table style="width:100%;border:none">
-              <tr>
-                <td style="background-color:${{ job.status == 'success' && '#E8F5E9' || '#FFEBEE' }};padding:15px;border-radius:5px">
-                  <h2 style="margin-top:0;font-color:#000">${{ job.status == 'success' && '✅ 빌드 성공' || '❌ 빌드 실패' }}</h2>
-                  <p style="font-color:#000"><strong>저장소:</strong> ${{ github.repository }}</p>
-                  <div style="font-color:#000;background-color:#fff;padding:1rem;border-radius:3px;margin-top:1rem">
-                    <p>💬 ${{ github.event.head_commit.message }}</p>
-                    <p style="font-style:italic;margin:5px 0">- ${{ github.event.head_commit.author.name }}</p>
-                  </div>
-                  <p style="font-color:#000;margin-top:1rem">
-                    <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">🔍 워크플로우 보기</a>
-                  </p>
-                </td>
-              </tr>
-            </table>
+            <div style="color:#000;background-color:${{ job.status == 'success' && '#E8F5E9' || '#FFEBEE' }};padding:15px;border-radius:5px">
+              <h2 style="margin-top:0">${{ job.status == 'success' && '✅ 빌드 성공' || '❌ 빌드 실패' }}</h2>
+              <p><strong>저장소:</strong> ${{ github.repository }}</p>
+              <div style="background-color:#fff;padding:1rem;border-radius:3px;margin-top:1rem">
+                <p>💬 ${{ github.event.head_commit.message }}</p>
+                <p style="font-style:italic;margin:5px 0">- ${{ github.event.head_commit.author.name }}</p>
+              </div>
+              <p style="margin-top:1rem">
+                <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">🔍 워크플로우 보기</a>
+              </p>
+            </div>
           theme_color: ${{ job.status == 'success' && '00FF00' || 'FF0000' }}
 
 
